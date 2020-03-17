@@ -11,10 +11,21 @@
         ref="ruleForm"
       >
         <el-form-item label="用户名：" prop="username">
-          <el-input prefix-icon="el-icon-user" v-model="form.username" placeholder="请输入用户名"></el-input>
+          <el-input
+            prefix-icon="el-icon-user"
+            v-model="form.username"
+            placeholder="请输入用户名"
+            @keyup.enter.native="handleLogin"
+          ></el-input>
         </el-form-item>
         <el-form-item label="密码：" prop="password">
-          <el-input prefix-icon="el-icon-lock" v-model="form.password" placeholder="请输入密码"></el-input>
+          <el-input
+            type="password"
+            prefix-icon="el-icon-lock"
+            v-model="form.password"
+            placeholder="请输入密码"
+            @keyup.enter.native="handleLogin"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div class="center">
@@ -62,13 +73,16 @@ export default {
           login(param).then(res => {
             console.log(res);
             if (res.code === 200) {
-              if(sessionStorage) {
+              if (sessionStorage) {
                 sessionStorage.setItem("isLogin", true);
-                sessionStorage.setItem("menuName", res.menuName);
-                sessionStorage.setItem("role", res.id);
-                sessionStorage.setItem("username", res.username);
+                sessionStorage.setItem(
+                  "menuName",
+                  JSON.stringify(res.data.menuName.sort((a, b) => a.id - b.id))
+                );
+                sessionStorage.setItem("role", res.data.id);
+                sessionStorage.setItem("username", res.data.username);
               }
-              this.$router.push("/index/user");
+              this.$router.push("/index");
             } else {
               this.$message({
                 type: "error",

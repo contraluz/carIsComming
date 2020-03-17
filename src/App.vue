@@ -1,15 +1,32 @@
 <template>
   <el-container class="app">
     <el-header class="header">
-      <div class="title">xxx后台管理系统</div>
+      <img src="./static/img/exit.png" class="exit-img" alt="exit" title="安全退出" @click="exit" />
+      <div class="title">顺风车后台管理系统</div>
     </el-header>
-    <router-view></router-view>
+      <router-view></router-view>
   </el-container>
 </template>
 <script>
 export default {
   data() {
     return {};
+  },
+  methods: {
+    exit() {
+      this.$confirm("您确定要退出系统?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          if (sessionStorage) {
+            sessionStorage.setItem("isLogin", "");
+            this.$router.push("/login");
+          }
+        })
+        .catch(() => {});
+    }
   }
 };
 </script>
@@ -109,6 +126,13 @@ body {
     padding-left: 20px;
     margin-top: 18px;
     letter-spacing: 2px;
+  }
+  .exit-img {
+    float: right;
+    margin-top: 16px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
   }
 }
 </style>
