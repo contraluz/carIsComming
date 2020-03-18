@@ -15,6 +15,11 @@
       <el-table-column type="selection" width="55" align="center"></el-table-column>
       <el-table-column prop="id" label="车费ID" align="center"></el-table-column>
       <el-table-column prop="num" label="车费金额" align="center"></el-table-column>
+      <el-table-column width="140" label="操作" align="center">
+        <template slot-scope="scope">
+          <el-button size="small" type="primary" @click="handleOpenEdit(scope.row)">编辑</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       :current-page="page"
@@ -31,9 +36,9 @@
       :before-close="handleCloseEdit"
     >
       <el-form ref="editform" class="form" :model="formDataEdit" label-width="120px">
-        <el-form-item label="车费ID：" required>
+        <!-- <el-form-item label="车费ID：" required>
           <el-input v-model="formDataEdit.id"></el-input>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item label="车费金额：" required>
           <el-input v-model="formDataEdit.num"></el-input>
         </el-form-item>
@@ -75,7 +80,7 @@ export default {
   data() {
     return {
       page: 1,
-      size: 12,
+      size: 10,
       total: 0,
       tableData: [],
       multipleSelection: [],
@@ -100,6 +105,10 @@ export default {
         size: this.size
       };
       mapSfcPice(param).then(res => {
+        if (!res.data) {
+          this.total = 0;
+          this.tableData = [];
+        }
         if (res.code === 200 && res.data) {
           this.total = res.data.total || 0;
           this.tableData = res.data.dataMap || [];
@@ -136,9 +145,8 @@ export default {
     },
     handleOpenEdit(row) {
       this.formDataEdit = {
-        id: row.userId,
-        type: row.motorType,
-        number: row.motorNumber
+        id: row.id,
+        num: row.num
       };
       this.editDialogVisible = true;
     },

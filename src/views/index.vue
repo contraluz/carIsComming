@@ -52,8 +52,16 @@ export default {
   mounted() {
     if (sessionStorage) {
       this.menuName = JSON.parse(sessionStorage.getItem("menuName"));
-      this.activedMenu = this.menuName[0].id + "";
-      this.$router.push(`/index/${maps[this.menuName[0].id - 1].router}`);
+      if (location.hash.split("index/")[1]) {
+        const route = location.hash.split("index/")[1];
+        const activeID = maps.find(item => {
+          return item.router === route;
+        }).id;
+        this.activedMenu = activeID + "";
+      } else {
+        this.activedMenu = "1";
+        this.$router.push("/index/user");
+      }
     }
   }
 };
@@ -89,6 +97,7 @@ export default {
     color: #666;
     border: 1px solid #eeeeee;
     margin-bottom: 16px;
+    overflow: hidden;
 
     .keyword {
       width: 220px;
@@ -98,6 +107,9 @@ export default {
     }
     .ml30 {
       margin-left: 30px;
+    }
+    .mr20 {
+      margin-right: 20px;
     }
   }
   //  设置模块所有列表表头及 斑马纹

@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       page: 1,
-      size: 12,
+      size: 10,
       total: 0,
       tableData: [],
       number: "",
@@ -76,6 +76,10 @@ export default {
         isNonG: this.isNonG
       };
       sfcZfService(param).then(res => {
+        if (!res.data) {
+          this.total = 0;
+          this.tableData = [];
+        }
         if (res.code === 200 && res.data) {
           this.total = res.data.total || 0;
           this.tableData = res.data.dataMap || [];

@@ -34,7 +34,12 @@
       <el-table-column prop="userId" label="用户ID" align="center"></el-table-column>
       <el-table-column prop="name" label="用户名" align="center"></el-table-column>
       <el-table-column prop="cardId" label="身份证号" align="center"></el-table-column>
-      <el-table-column prop="isnong" label="isnong" align="center"></el-table-column>
+      <!-- <el-table-column prop="isnong" label="isnong" align="center"></el-table-column> -->
+      <el-table-column label="操作" align="center" width="140">
+        <template slot-scope="scope">
+          <el-button size="small" type="primary" @click="handleOpenEdit(scope.row)">编辑</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       :current-page="page"
@@ -51,13 +56,13 @@
       :before-close="handleCloseEdit"
     >
       <el-form ref="editform" class="form" :model="formDataEdit" label-width="120px">
-        <el-form-item label="用户ID：" required>
+        <!-- <el-form-item label="用户ID：">
           <el-input v-model="formDataEdit.userId"></el-input>
-        </el-form-item>
-        <el-form-item label="用户名：" required>
+        </el-form-item> -->
+        <el-form-item label="用户名：">
           <el-input v-model="formDataEdit.name"></el-input>
         </el-form-item>
-        <el-form-item label="身份证号：" required>
+        <el-form-item label="身份证号：">
           <el-input v-model="formDataEdit.cardId"></el-input>
         </el-form-item>
       </el-form>
@@ -74,13 +79,13 @@
       :before-close="handleCloseAdd"
     >
       <el-form ref="addform" class="form" :model="formDataAdd" label-width="120px">
-        <el-form-item label="用户ID：" required>
-          <el-input v-model="formDataAdd.userId"></el-input>
+        <el-form-item label="用户ID：">
+          <el-input v-model="formDataAdd.id"></el-input>
         </el-form-item>
-        <el-form-item label="用户名：" required>
+        <el-form-item label="用户名：">
           <el-input v-model="formDataAdd.name"></el-input>
         </el-form-item>
-        <el-form-item label="身份证号：" required>
+        <el-form-item label="身份证号：">
           <el-input v-model="formDataAdd.cardId"></el-input>
         </el-form-item>
       </el-form>
@@ -104,7 +109,7 @@ export default {
   data() {
     return {
       page: 1,
-      size: 12,
+      size: 10,
       total: 0,
       name: "",
       card: "",
@@ -133,6 +138,10 @@ export default {
         card: this.card
       };
       mapListSfcAuthorize(param).then(res => {
+        if (!res.data) {
+          this.total = 0;
+          this.tableData = [];
+        }
         if (res.code === 200 && res.data) {
           this.total = res.data.total || 0;
           this.tableData = res.data.dataMap || [];
