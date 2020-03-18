@@ -87,6 +87,9 @@ export default {
     padding: 12px;
     font-size: 16px;
     color: #666;
+    border: 1px solid #eeeeee;
+    margin-bottom: 16px;
+
     .keyword {
       width: 220px;
     }
@@ -97,8 +100,19 @@ export default {
       margin-left: 30px;
     }
   }
+  //  设置模块所有列表表头及 斑马纹
+  .el-table .el-table__header th {
+    text-align: center;
+    font-size: 14px;
+    border: none;
+    background: #ececec;
+    color: #242424;
+  }
+  .el-table .el-table__row--striped td {
+    background: #f7f7f7;
+  }
 }
-.dialog-footer {
+.el-dialog__footer {
   text-align: center;
 }
 </style>

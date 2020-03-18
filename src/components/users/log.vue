@@ -2,11 +2,12 @@
   <div class="log">
     <div class="table-top">
       <el-button class="to-right" type="danger" size="small" @click="handleDelete">批量删除</el-button>
+      <span>搜索日志类型：</span>
       <el-input
         v-model="outs"
         class="keyword"
         size="small"
-        placeholder="输入关键词搜索"
+        placeholder="输入类型搜索"
         clearable
         @change="handleSearch"
       ></el-input>
@@ -29,7 +30,7 @@
       :current-page="page"
       @current-change="handleCurrentChange"
       background
-      layout="prev, pager, next, total"
+      layout="total, prev, pager, next"
       :total="total"
     ></el-pagination>
   </div>
@@ -42,7 +43,7 @@ export default {
   data() {
     return {
       page: 1,
-      size: 10,
+      size: 12,
       total: 0,
       outs: "",
       tableData: [],

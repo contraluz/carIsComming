@@ -30,6 +30,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center"></el-table-column>
+      <el-table-column prop="id" label="用户ID" align="center"></el-table-column>
       <el-table-column prop="name" label="姓名" align="center"></el-table-column>
       <el-table-column prop="phone" label="联系电话" align="center"></el-table-column>
       <el-table-column prop="money" label="余额" align="center"></el-table-column>
@@ -44,7 +45,7 @@
       :current-page="page"
       @current-change="handleCurrentChange"
       background
-      layout="prev, pager, next, total"
+      layout="total, prev, pager, next"
       :total="total"
     ></el-pagination>
     <el-dialog
@@ -55,7 +56,7 @@
       :before-close="handleCloseEdit"
     >
       <el-form ref="form" class="form" :model="formDataEdit" label-width="120px">
-        <el-form-item label="姓名">
+        <el-form-item label="姓名：">
           <el-input v-model="formDataEdit.name"></el-input>
         </el-form-item>
         <el-form-item label="联系电话：">
@@ -83,7 +84,7 @@ export default {
   data() {
     return {
       page: 1,
-      size: 10,
+      size: 12,
       total: 0,
       keyName: "",
       keyPhone: "",
@@ -128,14 +129,22 @@ export default {
       updateSfcUser(param).then(res => {
         if (res.code === 200) {
           this.$message({
-            type: "seccess",
+            type: "success",
             message: "修改成功"
           });
           this.handleSearch();
         }
       });
+      this.handleCloseEdit();
     },
     handleDelete() {
+      if (this.multipleSelection.length === 0) {
+        this.$message({
+          type: "warning",
+          message: "未选中任何记录"
+        });
+        return;
+      }
       this.$confirm("删除后数据无法恢复，是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",

@@ -2,15 +2,20 @@
   <el-container class="app">
     <el-header class="header">
       <img src="./static/img/exit.png" class="exit-img" alt="exit" title="安全退出" @click="exit" />
+      <div class="time-right">{{timeNow}}</div>
+      <img src="./static/img/car.png" class="logo" alt="logo" />
       <div class="title">顺风车后台管理系统</div>
     </el-header>
-      <router-view></router-view>
+    <router-view></router-view>
   </el-container>
 </template>
 <script>
 export default {
   data() {
-    return {};
+    return {
+      timeNow: "",
+      timer: 0
+    };
   },
   methods: {
     exit() {
@@ -27,6 +32,15 @@ export default {
         })
         .catch(() => {});
     }
+  },
+  mounted() {
+    this.timeNow = moment().format("YYYY年MM月DD日 HH:mm:ss");
+    this.timer = setInterval(() => {
+      this.timeNow = moment().format("YYYY年MM月DD日 HH:mm:ss");
+    }, 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   }
 };
 </script>
@@ -122,10 +136,24 @@ body {
   font-size: 20px;
   line-height: 1.2;
   color: #ffffff;
+  .logo {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 14px;
+  }
   .title {
+    display: inline-block;
+    vertical-align: top;
     padding-left: 20px;
     margin-top: 18px;
-    letter-spacing: 2px;
+    font-weight: bold;
+    letter-spacing: 4px;
+  }
+  .time-right {
+    float: right;
+    margin-right: 20px;
+    margin-top: 20px;
+    font-size: 16px;
   }
   .exit-img {
     float: right;

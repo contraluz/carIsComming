@@ -20,7 +20,7 @@
       :current-page="page"
       @current-change="handleCurrentChange"
       background
-      layout="prev, pager, next, total"
+      layout="total, prev, pager, next"
       :total="total"
     ></el-pagination>
   </div>
@@ -33,14 +33,15 @@ export default {
   data() {
     return {
       page: 1,
-      size: 10,
+      size: 12,
       total: 0,
       tableData: []
     };
   },
   components: {},
   methods: {
-    handleCurrentChange() {
+    handleCurrentChange(val) {
+      this.page = val;
       this.handleSearch();
     },
     handleSearch() {
