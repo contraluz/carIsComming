@@ -80,5 +80,25 @@ export default {
       text-align: right;
     }
   }
+
+  // 子组件的table-top
+  .table-top {
+    background: #fff;
+    padding: 12px;
+    font-size: 16px;
+    color: #666;
+    .keyword {
+      width: 220px;
+    }
+    .to-right {
+      float: right;
+    }
+    .ml30 {
+      margin-left: 30px;
+    }
+  }
+}
+.dialog-footer {
+  text-align: center;
 }
 </style>
