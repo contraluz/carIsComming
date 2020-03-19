@@ -34,6 +34,7 @@
       <el-table-column prop="name" label="姓名" align="center"></el-table-column>
       <el-table-column prop="phone" label="联系电话" align="center"></el-table-column>
       <el-table-column prop="money" label="余额" align="center"></el-table-column>
+      <el-table-column prop="createtime" label="时间" align="center"></el-table-column>
       <el-table-column prop="reputation" label="积分" align="center"></el-table-column>
       <el-table-column label="操作" align="center" width="140">
         <template slot-scope="scope">

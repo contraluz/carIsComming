@@ -31,10 +31,16 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center"></el-table-column>
-      <el-table-column prop="userId" label="用户ID" align="center"></el-table-column>
-      <el-table-column prop="name" label="用户名" align="center"></el-table-column>
+      <el-table-column prop="userId" label="车主ID" align="center"></el-table-column>
+      <el-table-column prop="name" label="车主姓名" align="center"></el-table-column>
       <el-table-column prop="motorType" label="车型" align="center"></el-table-column>
       <el-table-column prop="motorNumber" label="车牌号" align="center"></el-table-column>
+      <el-table-column prop="createtime" label="时间" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column label="操作" align="center" width="140">
+        <template slot-scope="scope">
+          <el-button size="small" type="primary" @click="handleOpenEdit(scope.row)">编辑</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       :current-page="page"
@@ -51,13 +57,13 @@
       :before-close="handleCloseEdit"
     >
       <el-form ref="editform" class="form" :model="formDataEdit" label-width="120px">
-        <el-form-item label="用户ID：" required>
+        <!-- <el-form-item label="用户ID：">
           <el-input v-model="formDataEdit.id"></el-input>
-        </el-form-item>
-        <el-form-item label="车型：" required>
+        </el-form-item> -->
+        <el-form-item label="车型：">
           <el-input v-model="formDataEdit.type"></el-input>
         </el-form-item>
-        <el-form-item label="车牌号：" required>
+        <el-form-item label="车牌号：">
           <el-input v-model="formDataEdit.number"></el-input>
         </el-form-item>
       </el-form>
@@ -74,13 +80,13 @@
       :before-close="handleCloseAdd"
     >
       <el-form ref="addform" class="form" :model="formDataAdd" label-width="120px">
-        <el-form-item label="用户ID：" required>
+        <el-form-item label="用户ID：">
           <el-input v-model="formDataAdd.id"></el-input>
         </el-form-item>
-        <el-form-item label="车型：" required>
+        <el-form-item label="车型：">
           <el-input v-model="formDataAdd.type"></el-input>
         </el-form-item>
-        <el-form-item label="车牌号：" required>
+        <el-form-item label="车牌号：">
           <el-input v-model="formDataAdd.number"></el-input>
         </el-form-item>
       </el-form>

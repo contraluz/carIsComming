@@ -49,13 +49,15 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center"></el-table-column>
-      <el-table-column prop="name" label="用户名" align="center"></el-table-column>
-      <el-table-column prop="start" label="上车点" align="center"></el-table-column>
+      <el-table-column prop="id" label="车主发布ID" align="center"></el-table-column>
+      <el-table-column prop="userid" label="乘客ID" align="center"></el-table-column>
+      <el-table-column prop="name" label="乘客姓名" align="center"></el-table-column>
+      <el-table-column prop="start" label="上车点" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="phone" label="手机" align="center"></el-table-column>
-      <el-table-column prop="num" label="空座位" align="center"></el-table-column>
+      <el-table-column prop="num" label="预定座位" align="center"></el-table-column>
       <el-table-column prop="startpoint" label="始发地" align="center"></el-table-column>
       <el-table-column prop="endpoint" label="目的地" align="center"></el-table-column>
-      <!-- <el-table-column prop="insettime" label="时间" align="center"></el-table-column> -->
+      <el-table-column prop="insettime" label="时间" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column label="操作" align="center" width="140">
         <template slot-scope="scope">
           <el-button size="small" type="primary" @click="handleOpenEdit(scope.row)">编辑</el-button>
@@ -112,7 +114,7 @@
       :before-close="handleCloseAdd"
     >
       <el-form ref="addform" class="form" :model="formDataAdd" label-width="120px">
-        <el-form-item label="任务ID：">
+        <el-form-item label="车主发布ID：">
           <el-input v-model="formDataEdit.id"></el-input>
         </el-form-item>
         <el-form-item label="乘客ID：">

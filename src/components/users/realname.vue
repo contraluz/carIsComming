@@ -32,8 +32,9 @@
     >
       <el-table-column type="selection" width="55" align="center"></el-table-column>
       <el-table-column prop="userId" label="用户ID" align="center"></el-table-column>
-      <el-table-column prop="name" label="用户名" align="center"></el-table-column>
+      <el-table-column prop="name" label="真实姓名" align="center"></el-table-column>
       <el-table-column prop="cardId" label="身份证号" align="center"></el-table-column>
+      <el-table-column prop="createtime" label="创建时间" align="center"></el-table-column>
       <!-- <el-table-column prop="isnong" label="isnong" align="center"></el-table-column> -->
       <el-table-column label="操作" align="center" width="140">
         <template slot-scope="scope">
@@ -58,7 +59,7 @@
       <el-form ref="editform" class="form" :model="formDataEdit" label-width="120px">
         <!-- <el-form-item label="用户ID：">
           <el-input v-model="formDataEdit.userId"></el-input>
-        </el-form-item> -->
+        </el-form-item>-->
         <el-form-item label="用户名：">
           <el-input v-model="formDataEdit.name"></el-input>
         </el-form-item>

@@ -40,13 +40,19 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center"></el-table-column>
-      <el-table-column prop="name" label="用户名" align="center"></el-table-column>
+      <el-table-column prop="userId" label="车主ID" align="center"></el-table-column>
+      <el-table-column prop="name" label="车主姓名" align="center"></el-table-column>
       <el-table-column prop="start" label="始发地" align="center"></el-table-column>
       <el-table-column prop="end" label="目的地" align="center"></el-table-column>
-      <el-table-column prop="freeSeat" label="空座位" align="center"></el-table-column>
+      <el-table-column prop="outtime" label="出发时间" show-overflow-tooltip align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.outtime.slice(0, 19).replace("T", " ")}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="freeSeat" label="座位数" width="80" align="center"></el-table-column>
       <el-table-column prop="motorType" label="车型" align="center"></el-table-column>
       <el-table-column prop="roadline" label="路线" show-overflow-tooltip align="center"></el-table-column>
-      <el-table-column prop="cost" label="金额" align="center"></el-table-column>
+      <el-table-column prop="cost" label="价格/座" width="80" align="center"></el-table-column>
       <el-table-column prop="remark" label="备注" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column label="操作" align="center" width="140">
         <template slot-scope="scope">
@@ -110,7 +116,7 @@
       :before-close="handleCloseAdd"
     >
       <el-form ref="addform" class="form" :model="formDataAdd" label-width="120px">
-        <el-form-item label="任务ID：">
+        <el-form-item label="车主ID：">
           <el-input v-model="formDataAdd.id"></el-input>
         </el-form-item>
         <!-- <el-form-item label="用户ID：">

@@ -26,15 +26,25 @@
         ></el-option>
       </el-select>
     </div>
-    <el-table :data="tableData" stripe border style="width: 100%">
+    <el-table :data="tableData" ref="table" stripe border style="width: 100%">
       <el-table-column type="index" width="80" label="序号" align="center"></el-table-column>
       <el-table-column prop="id" label="车主发布ID" align="center"></el-table-column>
       <el-table-column prop="name" label="用户名" align="center"></el-table-column>
-      <el-table-column prop="number" label="次数" align="center"></el-table-column>
       <el-table-column prop="czid" label="车主ID" align="center"></el-table-column>
+      <el-table-column prop="inserttime" label="时间" show-overflow-tooltip align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.inserttime.slice(0, 19).replace("T", " ")}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="number" label="次数" align="center"></el-table-column>
       <el-table-column prop="isnong" label="是否支付" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.isnong === 1 ? '已支付' : '尚未支付'}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="140">
+        <template slot-scope="scope">
+          <el-button size="small" type="primary" @click="handleOpenEdit(scope.row)">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -45,11 +55,39 @@
       layout="total, prev, pager, next"
       :total="total"
     ></el-pagination>
+    <el-dialog
+      title="编辑"
+      width="30%"
+      append-to-body
+      :visible="editDialogVisible"
+      :before-close="handleCloseEdit"
+    >
+      <el-form ref="editform" class="form" :model="formDataEdit" label-width="120px">
+        <el-form-item label="列表时间：">
+          <el-input v-model="formDataEdit.time"></el-input>
+        </el-form-item>
+        <el-form-item label="乘坐次数：">
+          <el-input v-model="formDataEdit.number"></el-input>
+        </el-form-item>
+        <el-form-item label="支付状态：">
+          <el-input v-model="formDataEdit.isNonG"></el-input>
+        </el-form-item>
+        <el-table-column label="操作" align="center" width="140">
+          <template slot-scope="scope">
+            <el-button size="small" type="primary" @click="handleOpenEdit(scope.row)">编辑</el-button>
+          </template>
+        </el-table-column>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="handleCloseEdit">取 消</el-button>
+        <el-button size="small" type="primary" @click="handleSubmitEdit">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { sfcZfService } from "@/api/indexPage";
+import { sfcZfService, updateSfcZf } from "@/api/indexPage";
 export default {
   name: "paying",
   data() {
@@ -59,7 +97,9 @@ export default {
       total: 0,
       tableData: [],
       number: "",
-      isNonG: ""
+      isNonG: "",
+      editDialogVisible: false,
+      formDataEdit: {}
     };
   },
   components: {},
@@ -67,6 +107,36 @@ export default {
     handleCurrentChange(val) {
       this.page = val;
       this.handleSearch();
+    },
+    handleCloseEdit() {
+      this.editDialogVisible = false;
+    },
+    handleOpenEdit(row) {
+      this.formDataEdit = {
+        id: row.id,
+        time: moment(row.inserttime).format("YYYY-MM-DD HH:mm:ss"),
+        number: row.number,
+        isNonG: row.isnong
+      };
+      this.editDialogVisible = true;
+    },
+    handleSubmitEdit() {
+      const param = this.formDataEdit;
+      updateSfcZf(param).then(res => {
+        if (res.code === 200) {
+          this.$message({
+            type: "success",
+            message: "编辑成功"
+          });
+          this.handleSearch();
+        } else {
+          this.$message({
+            type: "error",
+            message: res.data || "编辑失败"
+          });
+        }
+      });
+      this.handleCloseEdit();
     },
     handleSearch() {
       const param = {

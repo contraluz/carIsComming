@@ -16,6 +16,31 @@ export const selectAllUser = function ({
   return instance.get(`springBootSwagger/selectAllUser/${page}/${size}`)
 }
 
+// 用户修改密码
+export const updatePassword = function ({
+  idUser,
+  oldPassword,
+  newPassword,
+}) {
+  return instance.post(`springBootSwagger/updatePassword?idUser=${idUser}&oldPassword=${oldPassword}&newPassword=${newPassword}`)
+}
+
+// 权限获取
+export const listByMenu = function ({
+  roleId
+
+}) {
+  return instance.post(`springBootSwagger/listByMenu?roleId=${roleId}`)
+}
+
+// 权限修改
+export const insertQX = function ({
+  roleId,
+  menuId
+}) {
+  return instance.post(`springBootSwagger/insertQX?roleId=${roleId}&menuId=${menuId}`)
+}
+
 // ------------------------
 
 // 日值查询
@@ -269,7 +294,7 @@ export const mapSfcUnsubscribe = function ({
   size,
   remake
 }) {
-  return instance.get(`springBootSwagger/mapSfcUnsubscribe/${page}/${size}${remake?'?remake=' + remake : ''}`)
+  return instance.get(`springBootSwagger/mapSfcUnsubscribe/${page}/${size}${remake ? '?remake=' + remake : ''}`)
 }
 
 // 取消预订编辑

@@ -21,6 +21,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center"></el-table-column>
+      <el-table-column prop="id" label="用户ID" align="center"></el-table-column>
       <el-table-column prop="name" label="姓名" align="center"></el-table-column>
       <el-table-column prop="outs" label="类型" align="center"></el-table-column>
       <el-table-column prop="ramake" label="信息" show-overflow-tooltip align="center"></el-table-column>

@@ -41,6 +41,8 @@
     >
       <el-table-column type="selection" width="55" align="center"></el-table-column>
       <el-table-column prop="name" label="用户名" align="center"></el-table-column>
+      <el-table-column prop="userid" label="预约用户ID" align="center"></el-table-column>
+      <el-table-column prop="id" label="车主发布ID" align="center"></el-table-column>
       <el-table-column prop="start" label="始发地" align="center"></el-table-column>
       <el-table-column prop="end" label="目的地" align="center"></el-table-column>
       <el-table-column prop="num" label="预定座位" align="center"></el-table-column>
@@ -99,10 +101,10 @@
       :before-close="handleCloseAdd"
     >
       <el-form ref="addform" class="form" :model="formDataAdd" label-width="120px">
-        <el-form-item label="任务ID：">
+        <el-form-item label="车主发布ID：">
           <el-input v-model="formDataAdd.rId"></el-input>
         </el-form-item>
-        <el-form-item label="乘客ID：">
+        <el-form-item label="预约用户ID：">
           <el-input v-model="formDataAdd.userId"></el-input>
         </el-form-item>
         <el-form-item label="始发地：">
