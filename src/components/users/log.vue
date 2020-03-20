@@ -9,6 +9,7 @@
         size="small"
         placeholder="输入类型搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
     </div>

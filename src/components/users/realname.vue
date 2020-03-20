@@ -10,6 +10,7 @@
         size="small"
         placeholder="输入用户名搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
       <span class="ml30">搜索身份证号：</span>
@@ -19,6 +20,7 @@
         size="small"
         placeholder="输入身份证号搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
     </div>

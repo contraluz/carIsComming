@@ -1,47 +1,14 @@
 <template>
   <el-container class="app">
-    <el-header class="header">
-      <img src="./static/img/exit.png" class="exit-img" alt="exit" title="安全退出" @click="exit" />
-      <div class="time-right">{{timeNow}}</div>
-      <img src="./static/img/car.png" class="logo" alt="logo" />
-      <div class="title">顺风车后台管理系统</div>
-    </el-header>
     <router-view></router-view>
   </el-container>
 </template>
 <script>
 export default {
   data() {
-    return {
-      timeNow: "",
-      timer: 0
-    };
+    return {};
   },
-  methods: {
-    exit() {
-      this.$confirm("您确定要退出系统?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          if (sessionStorage) {
-            sessionStorage.setItem("isLogin", "");
-            this.$router.push("/login");
-          }
-        })
-        .catch(() => {});
-    }
-  },
-  mounted() {
-    this.timeNow = moment().format("YYYY年MM月DD日 HH:mm:ss");
-    this.timer = setInterval(() => {
-      this.timeNow = moment().format("YYYY年MM月DD日 HH:mm:ss");
-    }, 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.timer);
-  }
+  methods: {}
 };
 </script>
 <style lang="less">

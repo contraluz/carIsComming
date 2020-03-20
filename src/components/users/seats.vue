@@ -10,6 +10,7 @@
         size="small"
         placeholder="输入上车点"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
       <span class="ml30">搜索手机：</span>
@@ -19,6 +20,7 @@
         size="small"
         placeholder="输入手机号"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
       <span class="ml30">始发地：</span>
@@ -28,6 +30,7 @@
         size="small"
         placeholder="输入始发地"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
       <span class="ml30">目的地：</span>
@@ -37,6 +40,7 @@
         size="small"
         placeholder="输入目的地"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
     </div>

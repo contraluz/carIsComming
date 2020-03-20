@@ -10,6 +10,7 @@
         size="small"
         placeholder="输入车型搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
       <span class="ml30">搜索车牌号：</span>
@@ -19,6 +20,7 @@
         size="small"
         placeholder="输入车牌号搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
     </div>

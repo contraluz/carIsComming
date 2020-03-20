@@ -10,6 +10,7 @@
         size="small"
         placeholder="输入始发地搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
       <span class="ml30">搜索目的地：</span>
@@ -19,6 +20,7 @@
         size="small"
         placeholder="输入目的地搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
     </div>

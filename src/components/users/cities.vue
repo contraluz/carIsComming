@@ -10,6 +10,7 @@
         size="small"
         placeholder="输入城市代码搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
       <span class="ml30">搜索城市名：</span>
@@ -19,6 +20,7 @@
         size="small"
         placeholder="输入城市名搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
     </div>

@@ -8,6 +8,7 @@
         size="small"
         placeholder="输入次数搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
       <el-select
@@ -16,6 +17,7 @@
         v-model="isNonG"
         clearable
         placeholder="选择支付状态搜索"
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       >
         <el-option

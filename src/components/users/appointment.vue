@@ -10,6 +10,7 @@
         size="small"
         placeholder="输入始发地搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
       <span class="ml30">搜索目的地：</span>
@@ -19,6 +20,7 @@
         size="small"
         placeholder="输入目的地搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
       <span class="ml30">搜索等待时长：</span>
@@ -28,6 +30,7 @@
         size="small"
         placeholder="输入等待时长搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
     </div>
@@ -71,7 +74,7 @@
       <el-form ref="editform" class="form" :model="formDataEdit" label-width="120px">
         <!-- <el-form-item label="任务ID：">
           <el-input v-model="formDataEdit.id"></el-input>
-        </el-form-item> -->
+        </el-form-item>-->
         <el-form-item label="始发地：">
           <el-input v-model="formDataEdit.start"></el-input>
         </el-form-item>
@@ -171,7 +174,7 @@ export default {
         size: this.size,
         start: this.start,
         end: this.end,
-        remake: this.remake,
+        remake: this.remake
       };
       mapSfcYy(param).then(res => {
         if (!res.data) {
@@ -219,7 +222,7 @@ export default {
         end: row.end,
         time: row.outtime,
         num: row.num,
-        remake: row.waittime,
+        remake: row.waittime
       };
       this.editDialogVisible = true;
     },

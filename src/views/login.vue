@@ -1,5 +1,10 @@
 <template>
   <el-container class="main-container login">
+    <el-header class="header">
+      <div class="time-right">{{timeNow}}</div>
+      <img src="../static/img/car.png" class="logo" alt="logo" />
+      <div class="title">顺风车后台管理系统</div>
+    </el-header>
     <div class="login-content">
       <div class="login-title">登录</div>
       <el-form
@@ -54,6 +59,8 @@ export default {
       callback();
     };
     return {
+      timeNow: "",
+      timer: 0,
       form: {
         username: "",
         password: ""
@@ -95,6 +102,15 @@ export default {
         }
       });
     }
+  },
+  mounted() {
+    this.timeNow = moment().format("YYYY年MM月DD日 HH:mm:ss");
+    this.timer = setInterval(() => {
+      this.timeNow = moment().format("YYYY年MM月DD日 HH:mm:ss");
+    }, 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   }
 };
 </script>

@@ -9,6 +9,7 @@
         size="small"
         placeholder="输入取消原因搜索"
         clearable
+        suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
     </div>

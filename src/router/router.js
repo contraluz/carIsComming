@@ -19,81 +19,89 @@ const log = () => import( /* webpackChunkName: "log"*/ '@/components/users/log')
 const cities = () => import( /* webpackChunkName: "cities"*/ '@/components/users/cities');
 const realname = () => import( /* webpackChunkName: "realname"*/ '@/components/users/realname');
 
-const routes = [{
+const routes = [
+  {
     name: 'index',
     path: '/index',
     component: index,
     children: [{
-        name: 'user',
-        path: 'user',
-        component: user
-      }, {
-        name: 'paying',
-        path: 'paying',
-        component: paying
-      },
-      {
-        name: 'appointment',
-        path: 'appointment',
-        component: appointment
-      },
-      {
-        name: 'userInfo',
-        path: 'userInfo',
-        component: userInfo
-      },
-      {
-        name: 'subscribe',
-        path: 'subscribe',
-        component: subscribe
-      },
-      {
-        name: 'seats',
-        path: 'seats',
-        component: seats
-      },
-      {
-        name: 'route',
-        path: 'route',
-        component: route
-      },
-      {
-        name: 'price',
-        path: 'price',
-        component: price
-      },
-      {
-        name: 'release',
-        path: 'release',
-        component: release
-      },
-      {
-        name: 'credentials',
-        path: 'credentials',
-        component: credentials
-      },
-      {
-        name: 'log',
-        path: 'log',
-        component: log
-      },
-      {
-        name: 'cities',
-        path: 'cities',
-        component: cities
-      },
-      {
-        name: 'realname',
-        path: 'realname',
-        component: realname
-      }
+      name: 'user',
+      path: 'user',
+      component: user
+    }, {
+      name: 'paying',
+      path: 'paying',
+      component: paying
+    },
+    {
+      name: 'appointment',
+      path: 'appointment',
+      component: appointment
+    },
+    {
+      name: 'userInfo',
+      path: 'userInfo',
+      component: userInfo
+    },
+    {
+      name: 'subscribe',
+      path: 'subscribe',
+      component: subscribe
+    },
+    {
+      name: 'seats',
+      path: 'seats',
+      component: seats
+    },
+    {
+      name: 'route',
+      path: 'route',
+      component: route
+    },
+    {
+      name: 'price',
+      path: 'price',
+      component: price
+    },
+    {
+      name: 'release',
+      path: 'release',
+      component: release
+    },
+    {
+      name: 'credentials',
+      path: 'credentials',
+      component: credentials
+    },
+    {
+      name: 'log',
+      path: 'log',
+      component: log
+    },
+    {
+      name: 'cities',
+      path: 'cities',
+      component: cities
+    },
+    {
+      name: 'realname',
+      path: 'realname',
+      component: realname
+    }
     ]
   },
   {
     name: 'login',
     path: '/login',
     component: login
-  }, {
+  },
+  {
+    name: 'login',
+    path: '/',
+    redirect: '/login',
+    component: login
+  },
+  {
     name: 'notFound',
     path: '*',
     component: notFound

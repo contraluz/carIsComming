@@ -1,21 +1,29 @@
 <template>
-  <el-container class="main-container">
-    <el-aside width="300px" class="aside">
-      <el-menu :default-active="activedMenu" text-color="#fff" @select="handleMenuSelect">
-        <el-menu-item
-          class="menu-item"
-          :index="item.id + ''"
-          v-for="item in menuName"
-          :key="item.menu"
-        >
-          <i class="el-icon-menu"></i>
-          <span>{{item.menu}}</span>
-        </el-menu-item>
-      </el-menu>
-    </el-aside>
-    <el-main>
-      <router-view></router-view>
-    </el-main>
+  <el-container>
+    <el-header class="header">
+      <img src="../static/img/exit.png" class="exit-img" alt="exit" title="安全退出" @click="exit" />
+      <div class="time-right">{{timeNow}}</div>
+      <img src="../static/img/car.png" class="logo" alt="logo" />
+      <div class="title">顺风车后台管理系统</div>
+    </el-header>
+    <el-container class="main-container">
+      <el-aside width="300px" class="aside">
+        <el-menu :default-active="activedMenu" text-color="#fff" @select="handleMenuSelect">
+          <el-menu-item
+            class="menu-item"
+            :index="item.id + ''"
+            v-for="item in menuName"
+            :key="item.menu"
+          >
+            <i class="el-icon-menu"></i>
+            <span>{{item.menu}}</span>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
   </el-container>
 </template>
 
@@ -26,6 +34,8 @@ export default {
   name: "index",
   data() {
     return {
+      timeNow: "",
+      timer: 0,
       activedMenu: "",
       menuName: []
     };
@@ -34,6 +44,20 @@ export default {
   methods: {
     handleMenuSelect(val) {
       this.$router.push(`/index/${maps[val - 1].router}`);
+    },
+    exit() {
+      this.$confirm("您确定要退出系统?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          if (sessionStorage) {
+            sessionStorage.setItem("isLogin", "");
+            this.$router.push("/login");
+          }
+        })
+        .catch(() => {});
     }
   },
   mounted() {
@@ -54,6 +78,14 @@ export default {
     } else {
       this.$router.push("/index/user");
     }
+
+    this.timeNow = moment().format("YYYY年MM月DD日 HH:mm:ss");
+    this.timer = setInterval(() => {
+      this.timeNow = moment().format("YYYY年MM月DD日 HH:mm:ss");
+    }, 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   }
 };
 </script>
