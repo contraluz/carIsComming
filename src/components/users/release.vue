@@ -40,6 +40,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center"></el-table-column>
+      <el-table-column prop="id" label="车主发布ID" align="center"></el-table-column>
       <el-table-column prop="userId" label="车主ID" align="center"></el-table-column>
       <el-table-column prop="name" label="车主姓名" align="center"></el-table-column>
       <el-table-column prop="start" label="始发地" align="center"></el-table-column>
