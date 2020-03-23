@@ -150,4 +150,9 @@ export default {
 .el-dialog__footer {
   text-align: center;
 }
+.form {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 20px;
+}
 </style>

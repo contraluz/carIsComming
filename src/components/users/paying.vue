@@ -35,7 +35,7 @@
       <el-table-column prop="czid" label="车主ID" align="center"></el-table-column>
       <el-table-column prop="inserttime" label="时间" show-overflow-tooltip align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.inserttime.slice(0, 19).replace("T", " ")}}</span>
+          <span>{{handleTimeFormat(scope.row.inserttime)}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="number" label="次数" align="center"></el-table-column>
@@ -64,7 +64,7 @@
       :visible="editDialogVisible"
       :before-close="handleCloseEdit"
     >
-      <el-form ref="editform" class="form" :model="formDataEdit" label-width="120px">
+      <el-form class="form" :model="formDataEdit" label-width="120px">
         <el-form-item label="列表时间：">
           <el-input v-model="formDataEdit.time"></el-input>
         </el-form-item>
@@ -106,6 +106,9 @@ export default {
   },
   components: {},
   methods: {
+    handleTimeFormat(time) {
+      return moment(time).format("YYYY-MM-DD HH:mm:ss");
+    },
     handleCurrentChange(val) {
       this.page = val;
       this.handleSearch();

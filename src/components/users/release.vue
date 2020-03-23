@@ -50,7 +50,7 @@
       <el-table-column prop="end" label="目的地" align="center"></el-table-column>
       <el-table-column prop="outtime" label="出发时间" show-overflow-tooltip align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.outtime.slice(0, 19).replace("T", " ")}}</span>
+          <span>{{handleTimeFormat(scope.row.outtime)}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="freeSeat" label="座位数" width="80" align="center"></el-table-column>
@@ -90,6 +90,9 @@
         </el-form-item>
         <el-form-item label="目的地：">
           <el-input v-model="formDataEdit.end"></el-input>
+        </el-form-item>
+        <el-form-item label="出发时间：">
+          <el-input v-model="formDataEdit.outTime"></el-input>
         </el-form-item>
         <el-form-item label="路线：">
           <el-input v-model="formDataEdit.roadLine"></el-input>
@@ -131,6 +134,23 @@
         </el-form-item>
         <el-form-item label="目的地：">
           <el-input v-model="formDataAdd.end"></el-input>
+        </el-form-item>
+        <el-form-item label="出发时间：">
+          <el-tag
+            style="margin-right: 6px"
+            v-for="tag in tagsAdd"
+            :key="tag.key"
+            closable
+            :type="tag.label"
+            @close="handleTagsAddDel(tag.key)"
+          >{{tag.label}}</el-tag>
+          <el-date-picker
+            v-model="addDialogTime"
+            @change="handleAddTime"
+            type="datetime"
+            :clearable="false"
+            placeholder="选择出发时间"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="路线：">
           <el-input v-model="formDataAdd.roadLine"></el-input>
@@ -178,17 +198,35 @@ export default {
       editDialogVisible: false,
       addDialogVisible: false,
       formDataEdit: {},
-      formDataAdd: {}
+      formDataAdd: {},
+      addDialogTime: "",
+      tagsAdd: []
     };
   },
   components: {},
   methods: {
+    handleTimeFormat(time) {
+      return moment(time).format("YYYY-MM-DD HH:mm:ss");
+    },
     handleCurrentChange(val) {
       this.page = val;
       this.handleSearch();
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+    handleAddTime(val) {
+      if (!this.tagsAdd) {
+        this.tagsAdd = [];
+      }
+      this.tagsAdd.push({
+        label: moment(val).format("YYYY-MM-DD HH:mm:ss"),
+        key: +new Date() + ""
+      });
+    },
+    handleTagsAddDel(key) {
+      const id = this.tagsAdd.findIndex(item => item.key === key);
+      this.tagsAdd.splice(id, 1);
     },
     handleSearch() {
       const param = {
@@ -218,7 +256,9 @@ export default {
     },
     handleSubmitAdd() {
       const param = this.formDataAdd;
+      param.outTime = this.tagsAdd.map(item => item.label).join();
       insertSfcOwnerRelease(param).then(res => {
+        this.tagsAdd = [];
         if (res.code === 200) {
           this.$message({
             type: "success",
@@ -238,6 +278,7 @@ export default {
       this.editDialogVisible = false;
     },
     handleOpenEdit(row) {
+      console.log(row);
       this.formDataEdit = {
         id: row.id,
         userID: row.userId,
@@ -247,7 +288,8 @@ export default {
         type: row.motorType,
         remake: row.remark,
         cost: row.cost,
-        free: row.freeSeat
+        free: row.freeSeat,
+        outTime: moment(row.outtime).format("YYYY-MM-DD HH:mm:ss")
       };
       this.editDialogVisible = true;
     },

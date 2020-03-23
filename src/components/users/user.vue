@@ -19,7 +19,7 @@
       <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
       <el-table-column prop="timeInsert" label="时间" show-overflow-tooltip align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.timeInsert.slice(0, 19).replace("T", " ")}}</span>
+          <span>{{handleTimeFormat(scope.row.timeInsert)}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="userAddress" label="家庭地址" show-overflow-tooltip align="center"></el-table-column>
@@ -194,6 +194,9 @@ export default {
   },
   components: {},
   methods: {
+    handleTimeFormat(time) {
+      return moment(time).format("YYYY-MM-DD HH:mm:ss");
+    },
     handleCurrentChange(val) {
       this.page = val;
       this.handleSearch();

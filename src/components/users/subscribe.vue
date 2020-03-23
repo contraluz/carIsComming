@@ -27,7 +27,7 @@
       <el-table-column prop="userid" label="乘客ID" align="center"></el-table-column>
       <el-table-column prop="inserttime" label="时间" align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.inserttime.slice(0, 19).replace("T", " ")}}</span>
+          <span>{{handleTimeFormat(scope.row.inserttime)}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="remake" label="取消原因" align="center"></el-table-column>
@@ -91,6 +91,9 @@ export default {
   },
   components: {},
   methods: {
+    handleTimeFormat(time) {
+      return moment(time).format("YYYY-MM-DD HH:mm:ss");
+    },
     handleCurrentChange(val) {
       this.page = val;
       this.handleSearch();

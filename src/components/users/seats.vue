@@ -119,25 +119,25 @@
     >
       <el-form ref="addform" class="form" :model="formDataAdd" label-width="120px">
         <el-form-item label="车主发布ID：">
-          <el-input v-model="formDataEdit.id"></el-input>
+          <el-input v-model="formDataAdd.id"></el-input>
         </el-form-item>
         <el-form-item label="乘客ID：">
-          <el-input v-model="formDataEdit.userId"></el-input>
+          <el-input v-model="formDataAdd.userId"></el-input>
         </el-form-item>
         <el-form-item label="上车点：">
-          <el-input v-model="formDataEdit.start"></el-input>
+          <el-input v-model="formDataAdd.start"></el-input>
         </el-form-item>
         <el-form-item label="始发地：">
-          <el-input v-model="formDataEdit.startPoint"></el-input>
+          <el-input v-model="formDataAdd.startPoint"></el-input>
         </el-form-item>
         <el-form-item label="目的地：">
-          <el-input v-model="formDataEdit.endPoint"></el-input>
+          <el-input v-model="formDataAdd.endPoint"></el-input>
         </el-form-item>
         <el-form-item label="手机号：">
-          <el-input v-model="formDataEdit.phone"></el-input>
+          <el-input v-model="formDataAdd.phone"></el-input>
         </el-form-item>
         <el-form-item label="空座位：">
-          <el-input v-model="formDataEdit.num"></el-input>
+          <el-input v-model="formDataAdd.num"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -222,7 +222,7 @@ export default {
         } else {
           this.$message({
             type: "error",
-            message: res.data
+            message: res.data || res.msg
           });
         }
       });

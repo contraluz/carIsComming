@@ -44,8 +44,8 @@
     >
       <el-table-column type="selection" width="55" align="center"></el-table-column>
       <el-table-column prop="name" label="用户名" align="center"></el-table-column>
+      <el-table-column prop="ids" label="车主发布ID" align="center"></el-table-column>
       <el-table-column prop="userid" label="预约用户ID" align="center"></el-table-column>
-      <el-table-column prop="id" label="车主发布ID" align="center"></el-table-column>
       <el-table-column prop="start" label="始发地" align="center"></el-table-column>
       <el-table-column prop="end" label="目的地" align="center"></el-table-column>
       <el-table-column prop="num" label="预定座位" align="center"></el-table-column>

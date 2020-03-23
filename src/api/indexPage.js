@@ -268,7 +268,7 @@ export const updateSfcYy = function ({
 
 // 预约新增
 export const insertSfcYy = function ({
-  rid,
+  rId,
   userId,
   start,
   end,
@@ -276,7 +276,7 @@ export const insertSfcYy = function ({
   num,
   remake
 }) {
-  return instance.post(`springBootSwagger/insertSfcYy?&rid=${rid}&userId=${userId}&start=${start}&end=${end}&time=${time}&num=${num}&remake=${remake}`)
+  return instance.post(`springBootSwagger/insertSfcYy?&rId=${rId}&userId=${userId}&start=${start}&end=${end}&time=${time}&num=${num}&remake=${remake}`)
 }
 
 // 预约删除
@@ -335,9 +335,10 @@ export const updateSfcOwnerRelease = function ({
   type,
   free,
   cost,
-  remake
+  remake,
+  outTime
 }) {
-  return instance.post(`springBootSwagger/updateSfcOwnerRelease?&id=${id}&start=${start}&end=${end}&roadLine=${roadLine}&userID=${userID}&type=${type}&free=${free}&cost=${cost}&remake=${remake}`)
+  return instance.post(`springBootSwagger/updateSfcOwnerRelease?&id=${id}&start=${start}&end=${end}&roadLine=${roadLine}&userID=${userID}&type=${type}&free=${free}&cost=${cost}&remake=${remake}&outTime=${outTime}`)
 }
 
 // 预约新增
@@ -349,9 +350,10 @@ export const insertSfcOwnerRelease = function ({
   type,
   free,
   cost,
-  remake
+  remake,
+  outTime
 }) {
-  return instance.post(`springBootSwagger/insertSfcOwnerRelease?&id=${id}&roadLine=${roadLine}&start=${start}&end=${end}&type=${type}&free=${free}&cost=${cost}&remake=${remake}`)
+  return instance.post(`springBootSwagger/insertSfcOwnerRelease?&id=${id}&roadLine=${roadLine}&start=${start}&end=${end}&type=${type}&free=${free}&cost=${cost}&remake=${remake}&outTime=${outTime}`)
 }
 
 // 预约删除
