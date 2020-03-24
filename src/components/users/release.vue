@@ -248,6 +248,8 @@ export default {
       });
     },
     handleCloseAdd() {
+      this.tagsAdd = [];
+      this.addDialogTime = "";
       this.addDialogVisible = false;
     },
     handleOpenAdd() {

@@ -38,9 +38,13 @@
       <el-table-column prop="money" label="余额" align="center"></el-table-column>
       <el-table-column prop="createtime" label="时间" align="center"></el-table-column>
       <el-table-column prop="reputation" label="积分" align="center"></el-table-column>
-      <el-table-column label="操作" align="center" width="140">
+      <!-- 新增 -->
+      <el-table-column prop="realName" label="身份认证" align="center"></el-table-column>
+      <el-table-column prop="realOwner" label="车主认证" align="center"></el-table-column>
+      <el-table-column label="操作" align="center" width="240">
         <template slot-scope="scope">
-          <el-button size="small" type="primary" @click="handleOpenEdit(scope.row)">编辑</el-button>
+          <el-button size="small" type="primary" class="mr20" @click="handleOpenEdit(scope.row)">编辑</el-button>
+          <el-button size="small" type="primary" @click="handleOpenRelease(scope.row)">车主发布</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -77,11 +81,74 @@
         <el-button size="small" type="primary" @click="handleSubmitEdit">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      title="新增"
+      width="30%"
+      append-to-body
+      :visible="addDialogVisible"
+      :before-close="handleCloseAdd"
+    >
+      <el-form ref="addform" class="form" :model="formDataAdd" label-width="120px">
+        <el-form-item label="车主ID：">
+          <el-input v-model="formDataAdd.id"></el-input>
+        </el-form-item>
+        <!-- <el-form-item label="用户ID：">
+          <el-input v-model="formDataAdd.userID"></el-input>
+        </el-form-item>-->
+        <el-form-item label="始发地：">
+          <el-input v-model="formDataAdd.start"></el-input>
+        </el-form-item>
+        <el-form-item label="目的地：">
+          <el-input v-model="formDataAdd.end"></el-input>
+        </el-form-item>
+        <el-form-item label="出发时间：">
+          <el-tag
+            style="margin-right: 6px"
+            v-for="tag in tagsAdd"
+            :key="tag.key"
+            closable
+            :type="tag.label"
+            @close="handleTagsAddDel(tag.key)"
+          >{{tag.label}}</el-tag>
+          <el-date-picker
+            v-model="addDialogTime"
+            @change="handleAddTime"
+            type="datetime"
+            :clearable="false"
+            placeholder="选择出发时间"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="路线：">
+          <el-input v-model="formDataAdd.roadLine"></el-input>
+        </el-form-item>
+        <el-form-item label="车型：">
+          <el-input v-model="formDataAdd.type"></el-input>
+        </el-form-item>
+        <el-form-item label="空座位：">
+          <el-input v-model="formDataAdd.free"></el-input>
+        </el-form-item>
+        <el-form-item label="金额：">
+          <el-input v-model="formDataAdd.cost"></el-input>
+        </el-form-item>
+        <el-form-item label="备注：">
+          <el-input v-model="formDataAdd.remake"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="handleCloseAdd">取 消</el-button>
+        <el-button size="small" type="primary" @click="handleSubmitAdd">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listAllSfcUser, updateSfcUser, deleteSfcUser } from "@/api/indexPage";
+import {
+  listAllSfcUser,
+  updateSfcUser,
+  deleteSfcUser,
+  insertSfcOwnerRelease
+} from "@/api/indexPage";
 export default {
   name: "userinfo",
   data() {
@@ -94,7 +161,11 @@ export default {
       tableData: [],
       multipleSelection: [],
       editDialogVisible: false,
-      formDataEdit: {}
+      formDataEdit: {},
+      addDialogVisible: false,
+      formDataAdd: {},
+      addDialogTime: "",
+      tagsAdd: []
     };
   },
   components: {},
@@ -105,6 +176,44 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+    handleAddTime(val) {
+      if (!this.tagsAdd) {
+        this.tagsAdd = [];
+      }
+      this.tagsAdd.push({
+        label: moment(val).format("YYYY-MM-DD HH:mm:ss"),
+        key: +new Date() + ""
+      });
+    },
+    handleCloseAdd() {
+      this.tagsAdd = [];
+      this.addDialogTime = "";
+      this.addDialogVisible = false;
+    },
+    handleTagsAddDel(key) {
+      const id = this.tagsAdd.findIndex(item => item.key === key);
+      this.tagsAdd.splice(id, 1);
+    },
+    handleSubmitAdd() {
+      const param = this.formDataAdd;
+      param.outTime = this.tagsAdd.map(item => item.label).join();
+      insertSfcOwnerRelease(param).then(res => {
+        this.tagsAdd = [];
+        if (res.code === 200) {
+          this.$message({
+            type: "success",
+            message: "添加成功"
+          });
+          this.handleSearch();
+        } else {
+          this.$message({
+            type: "error",
+            message: res.data
+          });
+        }
+      });
+      this.handleCloseAdd();
     },
     handleSearch() {
       const param = {
@@ -126,6 +235,12 @@ export default {
     },
     handleCloseEdit() {
       this.editDialogVisible = false;
+    },
+    handleOpenRelease(row) {
+      this.formDataAdd = {
+        id: row.id
+      };
+      this.addDialogVisible = true;
     },
     handleOpenEdit(row) {
       this.formDataEdit = JSON.parse(JSON.stringify(row));
