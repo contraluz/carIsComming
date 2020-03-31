@@ -219,10 +219,16 @@ export default {
       if (!this.tagsAdd) {
         this.tagsAdd = [];
       }
-      this.tagsAdd.push({
-        label: moment(val).format("YYYY-MM-DD HH:mm:ss"),
-        key: +new Date() + ""
-      });
+      const arr = [];
+      for (let index = 0; index < 5; index++) {
+        arr.push({
+          label: moment(+val + index * 24 * 3600000).format(
+            "YYYY-MM-DD HH:mm:ss"
+          ),
+          key: +new Date(+val + index * 24 * 3600000) + "-" + index
+        });
+      }
+      this.tagsAdd.push(...arr);
     },
     handleTagsAddDel(key) {
       const id = this.tagsAdd.findIndex(item => item.key === key);

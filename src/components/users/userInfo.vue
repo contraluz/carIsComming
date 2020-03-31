@@ -35,16 +35,18 @@
       <el-table-column prop="id" label="用户ID" align="center"></el-table-column>
       <el-table-column prop="name" label="姓名" align="center"></el-table-column>
       <el-table-column prop="phone" label="联系电话" align="center"></el-table-column>
-      <el-table-column prop="money" label="余额" align="center"></el-table-column>
-      <el-table-column prop="createtime" label="时间" align="center"></el-table-column>
-      <el-table-column prop="reputation" label="积分" align="center"></el-table-column>
+      <el-table-column prop="money" label="余额" align="center" width="60"></el-table-column>
+      <el-table-column prop="createtime" label="时间" align="center" show-overflow-tooltip></el-table-column>
+      <el-table-column prop="reputation" label="积分" align="center" width="60"></el-table-column>
       <!-- 新增 -->
       <el-table-column prop="realName" label="身份认证" align="center"></el-table-column>
       <el-table-column prop="realOwner" label="车主认证" align="center"></el-table-column>
-      <el-table-column label="操作" align="center" width="240">
+      <el-table-column label="操作" align="center" width="400">
         <template slot-scope="scope">
           <el-button size="small" type="primary" class="mr20" @click="handleOpenEdit(scope.row)">编辑</el-button>
           <el-button size="small" type="primary" @click="handleOpenRelease(scope.row)">车主发布</el-button>
+          <el-button size="small" type="primary" @click="handleOpenCred(scope.row)">行驶证管理</el-button>
+          <el-button size="small" type="primary" @click="handleOpenRealname(scope.row)">实名认证</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -139,6 +141,52 @@
         <el-button size="small" type="primary" @click="handleSubmitAdd">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      title="新增"
+      width="30%"
+      append-to-body
+      :visible="addDialogCred"
+      :before-close="handleCloseCred"
+    >
+      <el-form class="form" :model="formDataCred" label-width="120px">
+        <el-form-item label="用户ID：">
+          <el-input v-model="formDataCred.id"></el-input>
+        </el-form-item>
+        <el-form-item label="车型：">
+          <el-input v-model="formDataCred.type"></el-input>
+        </el-form-item>
+        <el-form-item label="车牌号：">
+          <el-input v-model="formDataCred.number"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="handleCloseCred">取 消</el-button>
+        <el-button size="small" type="primary" @click="handleSubmitCred">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog
+      title="新增"
+      width="30%"
+      append-to-body
+      :visible="addDialogRealname"
+      :before-close="handleCloseRealname"
+    >
+      <el-form class="form" :model="formDataRealname" label-width="120px">
+        <el-form-item label="用户ID：">
+          <el-input v-model="formDataRealname.id"></el-input>
+        </el-form-item>
+        <el-form-item label="用户名：">
+          <el-input v-model="formDataRealname.name"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证号：">
+          <el-input v-model="formDataRealname.cardId"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="handleCloseRealname">取 消</el-button>
+        <el-button size="small" type="primary" @click="handleSubmitRealname">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -147,7 +195,9 @@ import {
   listAllSfcUser,
   updateSfcUser,
   deleteSfcUser,
-  insertSfcOwnerRelease
+  insertSfcOwnerRelease,
+  insertSfcMotor,
+  insertSfcAuthorize
 } from "@/api/indexPage";
 export default {
   name: "userinfo",
@@ -165,7 +215,11 @@ export default {
       addDialogVisible: false,
       formDataAdd: {},
       addDialogTime: "",
-      tagsAdd: []
+      tagsAdd: [],
+      formDataCred: {},
+      addDialogCred: false,
+      formDataRealname: {},
+      addDialogRealname: false
     };
   },
   components: {},
@@ -181,10 +235,68 @@ export default {
       if (!this.tagsAdd) {
         this.tagsAdd = [];
       }
-      this.tagsAdd.push({
-        label: moment(val).format("YYYY-MM-DD HH:mm:ss"),
-        key: +new Date() + ""
+      const arr = [];
+      for (let index = 0; index < 5; index++) {
+        arr.push({
+          label: moment(+val + index * 24 * 3600000).format(
+            "YYYY-MM-DD HH:mm:ss"
+          ),
+          key: +new Date(+val + index * 24 * 3600000) + "-" + index
+        });
+      }
+      this.tagsAdd.push(...arr);
+    },
+    handleOpenRealname(row) {
+      this.formDataRealname.id = row.id;
+      this.addDialogRealname = true;
+    },
+    handleCloseRealname() {
+      this.addDialogRealname = false;
+      this.formDataRealname = {};
+    },
+    handleSubmitRealname() {
+      const param = this.formDataRealname;
+      insertSfcAuthorize(param).then(res => {
+        if (res.code === 200) {
+          this.$message({
+            type: "success",
+            message: "添加成功"
+          });
+          this.handleSearch();
+        } else {
+          this.$message({
+            type: "error",
+            message: res.data
+          });
+        }
       });
+      this.handleCloseRealname();
+    },
+    handleOpenCred(row) {
+      this.formDataCred.id = row.id;
+      this.addDialogCred = true;
+    },
+    handleCloseCred() {
+      this.addDialogCred = false;
+      this.formDataCred = {};
+    },
+    handleSubmitCred() {
+      const param = this.formDataCred;
+      insertSfcMotor(param).then(res => {
+        if (res.code === 200) {
+          this.$message({
+            type: "success",
+            message: "添加成功"
+          });
+          this.handleSearch();
+        } else {
+          this.$message({
+            type: "error",
+            message: res.data
+          });
+        }
+      });
+      this.handleCloseCred();
     },
     handleCloseAdd() {
       this.tagsAdd = [];
