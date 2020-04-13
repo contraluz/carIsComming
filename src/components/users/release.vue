@@ -33,6 +33,16 @@
         suffix-icon="el-icon-search"
         @change="handleSearch"
       ></el-input>
+      <span class="ml30">搜索手机：</span>
+      <el-input
+        v-model="phone"
+        class="keyword"
+        size="small"
+        placeholder="输入手机"
+        clearable
+        suffix-icon="el-icon-search"
+        @change="handleSearch"
+      ></el-input>
     </div>
     <el-table
       :data="tableData"
@@ -46,6 +56,7 @@
       <el-table-column prop="id" label="车主发布ID" align="center"></el-table-column>
       <el-table-column prop="userId" label="车主ID" align="center"></el-table-column>
       <el-table-column prop="name" label="车主姓名" align="center"></el-table-column>
+      <el-table-column prop="phone" label="车主手机" align="center"></el-table-column>
       <el-table-column prop="start" label="始发地" align="center"></el-table-column>
       <el-table-column prop="end" label="目的地" align="center"></el-table-column>
       <el-table-column prop="outtime" label="出发时间" show-overflow-tooltip align="center">
@@ -193,6 +204,7 @@ export default {
       start: "",
       end: "",
       type: "",
+      phone: "",
       tableData: [],
       multipleSelection: [],
       editDialogVisible: false,
@@ -240,7 +252,8 @@ export default {
         size: this.size,
         start: this.start,
         end: this.end,
-        type: this.type
+        type: this.type,
+        phone: this.phone
       };
       mapListSfcOwnerRelease(param).then(res => {
         if (!res.data) {

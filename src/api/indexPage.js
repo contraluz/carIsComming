@@ -320,9 +320,10 @@ export const mapListSfcOwnerRelease = function ({
   size,
   start,
   end,
-  type
+  type,
+  phone
 }) {
-  return instance.get(`springBootSwagger/mapListSfcOwnerRelease/${page}/${size}?start=${start}&end=${end}&type=${type}`)
+  return instance.get(`springBootSwagger/mapListSfcOwnerRelease/${page}/${size}?start=${start}&end=${end}&type=${type}&phone=${phone}`)
 }
 
 // 预约编辑
